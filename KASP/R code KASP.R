@@ -3,12 +3,8 @@ setwd("C:/Users/pfarr/Documents/Dogwood research/KASP/R")
 
 library(RColorBrewer)
 library(ggplot2)
-pal <- colorRampPalette(brewer.pal(11, "RdYlGn"))(100)
-redgreen <- c("red", "green") 
-pal <- colorRampPalette(redgreen)(100)
 
-#try replacing RdYlGn with PRGn
-#now I am using a custom color palette
+### KASP graphic
  
 KASP.raw=(read.table("KASP data for R.txt", header=TRUE))
 KASP.matrix <- as.matrix(KASP.raw)
@@ -51,7 +47,7 @@ ddRadSeqplot<-ggplot(ddRadSeq.matrix.2, aes(as.factor(Var2), Var1, fill= value))
   xlab("Polymorphism")
 ddRadSeqplot
 
-#now do overall data, playing around with a custom color scale
+#now do overall data
 color1=rgb(.2, .6, .4, 1)
 overall.raw=(read.table("Overall data for R.txt", header=TRUE))
 overall.matrix <- as.matrix(overall.raw)
@@ -79,9 +75,9 @@ arrangedplots <-ggarrange(KASPplot, ddRadSeqplot, overallplot,
                           align= "h",
                           widths = c(1.5, 0.95, 0.70))
 arrangedplots
-ggexport(arrangedplots, filename="arranged heatmap for KASP and ddRAdSeq and overall data GreenPurpleblue.tiff", width=6800, height=2700, res=600)
+ggexport(arrangedplots, filename="arranged heatmap for KASP.tiff", width=6800, height=2700, res=600)
 
-########## create scatterplot of KASP results for powerpoint presentation(recreating the plot from stepone in ggplot with better colors and legend)##########################
+########## create scatterplot of KASP results for powerpoint presentation (recreating the plot from stepone in ggplot with better colors and legend)##########################
 library(ggplot2)
 Kasp645 <- read.csv("C:/Users/pfarr/Documents/Dogwood research/KASP/R/KASP 645 data for R.csv")
 ###for some reason, there are extra empty lines after the data if the csv file is resaved, must be deleted before plotting
@@ -96,4 +92,4 @@ ggplot(data=Kasp645, aes(x=Allele1, y=Allele2, color=Call, fill=Call, shape=Stat
   ggtitle("KASP Allelic Discrimination Plot\nMarker 645") +
   xlab("ssp. kousa allele (VIC)") +
   ylab("ssp. chinensis allele (FAM)")
-ggsave("KASP allelic discrimination plot 645.tiff", width=15, height=12, units="cm", dpi=300, path = "C:/Users/pfarr/Documents/Dogwood research/KASP/R")
+ggsave("KASP allelic discrimination plot 645.tiff", width=15, height=12, units="cm", dpi=300)
