@@ -1,0 +1,18 @@
+	645	35959	22353	2389	19201	34939	41495
+"Ck Big Dipper"	0	0	0	0	0	0	0
+"Ck Spiritual"	0	0	0	0	0	0	0
+"Ck Ticknors Choice"	0	0	0	0	0	0	0
+"Ck Emerald Star"	0	0	0	0	0	0	NA
+"Ck Snowflake"	0	0	NA	0	0	0	NA
+"Ck Propzam Prophet"	0	0	0	0	0	0	0
+"Ck Bodnant Form"	0	0	0	0	0	0	0
+"Ck Melissa's Mountain Snowfall"	0	NA	NA	0	0	0	NA
+"Ck 79163-L China"	0	0	0	0	0	0	0
+"Ck 79163-P China"	0	0	0	0	0	0	0
+"Ck Julian"	0.5	0.5	0.5	0.5	0.5	0.5	0.5
+"Ck Angela Palmer"	0	0.5	1	NA	1	1	1
+"Ck Pollywood"	0.5	1	0.5	1	0.5	1	0.5
+"Ck Steeple (Polly Hill)"	1	1	1	1	1	NA	1
+"Ck Norman Hadden"	0.5	1	NA	0.5	NA	1	1
+"Ck Bush's Pink"	1	1	1	1	1	1	1
+"Ck Waterfall"	1	1	1	1	1	1	1
