@@ -1,1 +1,1 @@
-#File containing KASP graphic data
+#Folder containing KASP graphic data
