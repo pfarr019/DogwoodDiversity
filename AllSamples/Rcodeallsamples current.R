@@ -1,5 +1,6 @@
 setwd("C:/Users/pfarr/Documents")
 setwd("C:/Users/pfarr/Documents/Dogwood research/Full Diversity study/All samples 11-19-21/R")
+setwd("C:/Users/ERIN.MOREAU/Documents/Dogwood/DogwoodDiversity/AllSamples")
 
 cornus.raw3009=read.table("3009SNPsR.txt", row = 1, skipNul = TRUE)
 library(vegan)
@@ -46,10 +47,9 @@ ggsave("PCO Cornus All.tiff", scale=1, width=10, units="in", dpi=600)
 
 
 #####Now visualize the structure data here 
+remotes::install_github('royfrancis/pophelper') #pophelper install is slightly different because not in CRAN
 library("pophelper")
 library(gridExtra)
-
-setwd("C:/Users/pfarr/Documents/Dogwood research/Full Diversity study/All samples 11-19-21/Structure")
 
 sfiles <- list.files(path="pophelper", full.names=TRUE) #read all of the files in a folder
 sfiles
@@ -61,7 +61,6 @@ slist
 p1 <- plotQ(qlist=slist[c(3,4,10)],imgoutput="join",returnplot=TRUE,exportplot=FALSE,basesize=11,exportpath =getwd())
 grid.arrange(p1$plot[[1]])
 
-rownames(slist[[15]]) <- inds$V1
 #careful because the lab legend isn't necessarily in order
 plotQ(slist[1],returnplot=TRUE,exportplot=TRUE,
       showtitle=T, titlelab="Structure all accessions", titlesize=5,
