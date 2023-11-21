@@ -1,5 +1,6 @@
 # R script for producing KASP result graphic
-setwd("C:/Users/pfarr/Documents/Dogwood research/KASP/R")
+# setwd("C:/Users/pfarr/Documents/Dogwood research/KASP/R")
+setwd("C:/Users/ERIN.MOREAU/Documents/Dogwood/DogwoodDiversity/KASP")
 
 library(RColorBrewer)
 library(ggplot2)
@@ -79,7 +80,7 @@ ggexport(arrangedplots, filename="arranged heatmap for KASP.tiff", width=6800, h
 
 ########## create scatterplot of KASP results for powerpoint presentation (recreating the plot from stepone in ggplot with better colors and legend)##########################
 library(ggplot2)
-Kasp645 <- read.csv("C:/Users/pfarr/Documents/Dogwood research/KASP/R/KASP 645 data for R.csv")
+Kasp645 <- read.csv("KASP 645 data for R.csv")
 ###for some reason, there are extra empty lines after the data if the csv file is resaved, must be deleted before plotting
 ggplot(data=Kasp645, aes(x=Allele1, y=Allele2, color=Call, fill=Call, shape=Status))+
   geom_point(size=4)+
