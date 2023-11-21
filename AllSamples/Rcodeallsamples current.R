@@ -70,7 +70,7 @@ plotQ(slist[1],returnplot=TRUE,exportplot=TRUE,
       showlegend=T, legendlab=c("florida   ","kousa"), legendkeysize=3, legendtextsize=3, 
       showsp=TRUE, splab="K=2", splabsize=3, 
       showindlab=TRUE, useindlab=TRUE, indlabsize=2,
-      outputfilename="plotq",imgtype="png", dpi=600, exportpath="C:/Users/pfarr/Documents/Dogwood research/Full Diversity study/All samples 11-19-21/Structure"
+      outputfilename="plotq",imgtype="png", dpi=600, exportpath=getwd()
 )
 
 #plot files with individuals in the same order as in the PCO (first coordinate)
