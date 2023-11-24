@@ -1,5 +1,6 @@
 setwd("C:/Users/pfarr/Documents")
 setwd("C:/Users/pfarr/Documents/Dogwood research/Full Diversity study/Kousas only 4-1-22/R")
+setwd("C:/Users/ERIN.MOREAU/Documents/Dogwood/DogwoodDiversity/Cornuskousa")
 ckousa.raw3599=read.table("3599markerskousawoutdoublesforNJ.txt", row = 1, skipNul = TRUE)
 
 library(ape)
@@ -7,6 +8,7 @@ library(vegan)
 ckousa.dist3599 <- vegdist(ckousa.raw3599, method = "gower", na.rm = TRUE)
 ckousa.nj3599 <-nj(ckousa.dist3599)
 plot(ckousa.nj3599, cex = 0.7, label.offset = 0.001)
+
 
 
 #note, in order to present a rooted tree with bootstrap values, one needs to reroot it before doing bootstrapping, 
