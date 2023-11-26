@@ -92,6 +92,7 @@ ckousa.pcogroupspink=scan("PCOgroupspinkorwhiteWOduplicates.txt")
 ckousa.pcogroups3 <- as.factor(ckousa.pcogroups2) #convert groups of bract color into factors so can be read by ggplot
 ckousa.pcogroups4 <- as.factor(ckousa.pcogroupswild2)
 ckousa.pco3599dataframe <- data.frame(ckousa.pco3599ape$vectors[,1], ckousa.pco3599ape$vectors[,2],ckousa.pco3599ape$vectors[,3], ckousa.pcogroups3, ckousa.pcogroups4, ckousa.pcogroupspink) #make the eigenvectors and PCO groupsinto a data frame
+library(ggplot2)
 ggplot()+
   #overlay pink data to the graph
   geom_point(data=ckousa.pco3599dataframe, 
@@ -188,6 +189,8 @@ plot(ckousa.3599amovasignif)
 ckousa.3599amovasignif
 
 setwd("C:/Users/pfarr/Documents/Dogwood research/Full Diversity study/Kousas only 4-1-22/apparent")
+setwd("C:/Users/ERIN.MOREAU/Documents/Dogwood/DogwoodDiversity/Cornuskousa/apparent")
+
 
 ##################next analysis, parentage
 library(outliers)

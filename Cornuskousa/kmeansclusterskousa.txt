@@ -53,7 +53,7 @@
 "Ck_H3DR03P75"	5
 "Ck_Temple_Jewel"	3
 "Ck_Little_Poncho"	3
-"Ck_Weaver’s_Weeping"	1
+"Ck_Weaver's_Weeping"	1
 "Ck_Summer_Majesty_Rutgers"	1
 "Ck_Autumn_Rose"	3
 "Ck_DB2017"	3
