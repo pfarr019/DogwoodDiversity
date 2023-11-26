@@ -174,7 +174,7 @@ CfTriadPlot <- ggplot(apparentOUT$SortGD, aes(x=Order, y=GD, color=Colour))+
   geom_hline(yintercept=apparentOUT$ThresholdT, linetype="dashed", color = "red")
 
 ##################
-#do dyad analysis my way, using a similar strategy as the triad analysis in apparent, using proportion of loci in opposite homozygous states
+#do dyad analysis in another way, using a similar strategy as the triad analysis in apparent, using proportion of loci in opposite homozygous states
 #import distance matrix data to lay it flat
 Cfdistancedataraw <- read.csv("apparent/7622 markers distance matrix for dyad analysis to melt.csv", check.names=FALSE)
 Cfdistancedataraw

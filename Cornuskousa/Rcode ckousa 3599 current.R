@@ -188,131 +188,39 @@ ckousa.3599amovasignif   <- randtest(ckousa.3599amova, nrepet = 999)
 plot(ckousa.3599amovasignif)
 ckousa.3599amovasignif
 
+##################next analysis, parentage
+#using the apparent package from Iago and Hale to see if it can successfully identify parents of individuals, with confidence assignments.
+
 setwd("C:/Users/pfarr/Documents/Dogwood research/Full Diversity study/Kousas only 4-1-22/apparent")
 setwd("C:/Users/ERIN.MOREAU/Documents/Dogwood/DogwoodDiversity/Cornuskousa/apparent")
 
-
-##################next analysis, parentage
 library(outliers)
 # Load the input file
 InputFile <- read.table(file="3599 markers for apparent.txt",sep="\t",h=FALSE)
+#make sure to run "apparent_script_Pavel for printing out triad plot" before this step
 CkapparentOUT <- apparent(InputFile, MaxIdent=0.10, nloci=300, self=FALSE, plot=TRUE, Dyad=TRUE)
 #there is an error with Dyad=TRUE, which is unfortunate, because that is my main interest with this r package
 #actually, the error is fixed with Pavel's script
-#but the triad analysis works if I remove Dyad=TRUE, see below
-CkapparentOUT0.01 <- apparent(InputFile, MaxIdent=0.10, nloci=300, self=FALSE, plot=TRUE, Dyad=FALSE)
-CkapparentOUT0.05 <- apparent(InputFile, MaxIdent=0.10, alpha=0.05, nloci=300, self=FALSE, plot=TRUE, Dyad=TRUE)
 
 #to check out the results
 CkapparentOUT
-CkapparentOUT0.01
-CkapparentOUT0.05
 
 InputFile
 
 #printing out part of the results to a CSV in order to see all of them in excel
 write.csv(CkapparentOUT$Triad_all,"apparentOUT_Triad_all.csv", row.names = FALSE)
-write.csv(CkapparentOUT0.05$Dyad_sig,"apparentOUT_Dyad_sig2.csv", row.names = FALSE)
+write.csv(CkapparentOUT$Dyad_sig,"apparentOUT_Dyad_sig2.csv", row.names = FALSE)
 
-###hmmmm, I think that the dyad analysis should be redone so that the proportion of loci with opposite heterozygous states
-#is calculated then these numbers should be plotted as in the triad analysis and two dixon tests should be used to identify the gap, then 
-#test for significance.
-#try making my own distance matrix using the proportion of loci with opposite heterozygous states
-####this time it worked!
-library(usedist)
-Pohl_distance <- function (r1, r2) {
-  mean(abs(r2- r1))
-}
+##################
+#do dyad analysis in another way, using a similar strategy as the triad analysis in apparent, using proportion of loci in opposite homozygous states
+#import distance matrix data to lay it flat
 
-X <- matrix(rnorm(30), nrow=6)
-rownames(X) <- c("A", "B", "C", "D", "E", "F")
-X
-
-#Distance matrix for testing function
-X <- matrix(rnorm(30), nrow=6)
-rownames(X) <- c("A", "B", "C", "D", "E", "F")
-X
-
-X <-matrix(c(0,0,1,0.5,1,1,0,1,1,0,NA,1,0,0,1),nrow=3,ncol=5,byrow=TRUE)
-rownames(X) <- c("A", "B", "C")
-
-#defining my own function
-Pohl_distance <- function (r1, r2) {
-  sum(abs(r2- r1)==1, na.rm=TRUE)/(sum(abs(r2- r1)==0.5, na.rm=TRUE)+sum(abs(r2- r1)==1, na.rm=TRUE)+sum(abs(r2- r1)==0, na.rm=TRUE))
-}
-
-dist_make(X, Pohl_distance)
-
-
-#Reprinting the Triad analysis plot for publication
-SortGD <- as.data.frame(na.omit(sort(GD)))
-colnames(SortGD) <- "GD"
-ThresholdT <- mean(c(SortGD[TIndex + 1,1], SortGD[TIndex,1]))
-SortGD$Colour[SortGD$GD <= ThresholdT] = "red"
-SortGD$Colour[SortGD$GD > ThresholdT] = "black"
-plot (SortGD$GD,xlab="Test triads, ordered by GDij|POk",ylab="Gower Genetic Dissimilarity (GDij|k)",
-      main="Triad analysis plot",pch=1,cex=.5,col=SortGD$Colour,xaxt="n")
-axis(1,at=c(1,nrow(SortGD)),labels=c("1",nrow(SortGD)),cex.axis=.7)
-abline(h = ThresholdT, lty = 2, col =  "tomato")
-
-#reprinting the dyad plots for publication
-for (i in 1:nrow(Out3b)) {
-  par(mfrow=c(2,1))
-  par(mar=c(2,1,1,1))
-  par(mgp=c(.5,.5,0))
-  par(oma=c(0,0,0,0))
-  PlotM <- as.data.frame(GDM[,as.character(Out3b$Offspring[i])])
-  PlotR <- as.data.frame(GDCV[,as.character(Out3b$Offspring[i])])
-  PlotM <- cbind(rownames(GDM),PlotM)
-  PlotR <- cbind(rownames(GDCV),PlotR)
-  colnames(PlotM) <- c("P","Mean")
-  colnames(PlotR) <- c("P","Ratio")
-  PlotM <- na.omit(PlotM[order(PlotM$Mean),])
-  PlotR <- na.omit(PlotR[order(PlotR$Ratio),])
-  # Normal probabilities of Means (GDM)
-  PlotMpnorm <- as.data.frame(pnorm((PlotM$Mean - mean(PlotM$Mean)) / sd (PlotM$Mean)))
-  PlotM <- cbind(PlotM,PlotMpnorm)
-  colnames(PlotM) <- c("P","Mean","Mpnorm")
-  PlotM$Colour[PlotM$Mpnorm <= sqrt(alpha)] = "red"
-  PlotM$Colour[PlotM$Mpnorm > sqrt(alpha)] = "black"
-  M_axis <- PlotM[c(1,nrow(PlotM)),c(1,2)]
-  cntM <- grep("red",PlotM$Colour)
-  M_lower_bound <- -qnorm(1 - sqrt(alpha)) * sd(PlotM$Mean) + mean(PlotM$Mean)
-  # # Normal probabilities of Ratio (GDCV)
-  PlotRpnorm <- as.data.frame(pnorm((PlotR$Ratio - mean(PlotR$Ratio)) / sd (PlotR$Ratio)))
-  PlotR <- cbind(PlotR,PlotRpnorm)
-  colnames(PlotR) <- c("P","Ratio","Rpnorm")
-  PlotR$Colour[PlotR$Rpnorm <= 1-(sqrt(alpha))] = "black"
-  PlotR$Colour[PlotR$Rpnorm > 1-(sqrt(alpha))] = "red"
-  R_axis = PlotR[c(1,nrow(PlotR)),c(1,2)]
-  cntR <- grep("red",PlotR$Colour)
-  R_upper_bound <- qnorm(1 - sqrt(alpha)) * sd(PlotR$Ratio) + mean(PlotR$Ratio)
-  # GDM plot
-  plot (PlotM$Mean,rep(1,nrow(PlotM)),xlab="GDM",col=PlotM$Colour,ylab="", 
-        main=Out3b$Offspring[i],pch=1,cex=.5,cex.lab=.7,axes=F)
-  axis(side=1,at=M_axis$Mean,labels=round(M_axis$Mean,2),cex.axis=.5,line=-3)
-  segments(x0=M_lower_bound, y0=.85, x1=M_lower_bound, y1=1,col='red',lty=3)
-  #text(M_text,.7,labels="GDM",pos=3,cex=.4,offset=.1)
-  text(PlotM$Mean[cntM],1,labels=PlotM$P[cntM],pos=4,cex=.4,srt=45,offset=.3)
-  text(M_lower_bound,.7,labels="Lower bound\ncutoff",pos=3,cex=.4,offset=.3)
-  # GDCV plot
-  plot (PlotR$Ratio,rep(1,nrow(PlotR)),xlab="GDCV",col=PlotR$Colour,ylab="",
-        pch=1,cex=.5,cex.lab=.7,axes=F)
-  axis(side=1,at=R_axis$Ratio,labels=round(R_axis$Ratio,2),cex.axis=.5,line=-3)
-  segments(x0=R_upper_bound, y0=.85, x1=R_upper_bound, y1=1,col='red',lty=3)
-  text(PlotR$Ratio[cntR],1,labels=PlotR$P[cntR],pos=2,cex=.4,srt=315,offset=.3)
-  text(R_upper_bound,.7,labels="Upper bound\ncutoff",pos=3,cex=.4,offset=.3)
-}
-
-
-
-#parentage analysis
 #importing the data as is, then melting it to get it to "lay it flat"
 distancedataraw <- read.csv("3599 markers distance matrix for dyad analysis to melt.csv", check.names=FALSE)
 distancedataraw
 #note: it seems to be ok that there are both NA and <NA> in the data frame, they both show up as TRUE when is.na(dataraw) is run
 
-class(dataraw) #should return a data.frame
+class(distancedataraw) #should return a data.frame
 library(reshape2)
 distancemolten.data <- melt(distancedataraw, id= "row", na.rm = TRUE) #melt the data
 distancemolten.data
@@ -333,7 +241,6 @@ sorted_distance_data_1 <- sorted_distance_data
 vec <- 1:nrow(sorted_distance_data)
 sorted_distance_data_1$Pohlvalueorder <-vec
 
-library(ggplot2)
 sorted_distance_data_1
 ggplot(sorted_distance_data_1, aes(x=Pohlvalueorder, y=value)) + geom_point(shape=1)
 
@@ -359,7 +266,7 @@ sorted_distance_data_2$Pohlvalueorder <-vec
 
 ggplot(sorted_distance_data_2, aes(x=Pohlvalueorder, y=value)) + geom_point(shape=1)
 
-#do in ggplot so that you to combine with the triad analysis plot
+#do in ggplot to combine with the triad analysis plot
 CkDyadPlot <- ggplot(sorted_distance_data_2, aes(x=Pohlvalueorder, y=value))+
   geom_point(size=0.5, shape=1)+
   labs(title="Cornus kousa Dyad Analysis Plot",
@@ -371,13 +278,13 @@ CkDyadPlot <- ggplot(sorted_distance_data_2, aes(x=Pohlvalueorder, y=value))+
   scale_x_continuous(breaks=c(1, nrow(sorted_distance_data_2)))
 
 #now the triad plot
-SortGD1Ck <-CkapparentOUT0.05$SortGDCk
+SortGD1Ck <-CkapparentOUT$SortGD
 
-vec <- 1:nrow(CkapparentOUT0.05$SortGDCk)
-CkapparentOUT0.05$SortGDCk$Order <-vec
+vec <- 1:nrow(CkapparentOUT$SortGD)
+CkapparentOUT$SortGD$Order <-vec
 
 #replicate triad plot in ggplot in order to print out with the dyad analysis figure
-CkTriadPlot <- ggplot(CkapparentOUT0.05$SortGDCk, aes(x=Order, y=GD, color=Colour))+
+CkTriadPlot <- ggplot(CkapparentOUT$SortGD, aes(x=Order, y=GD, color=Colour))+
   geom_point(size=0.5, shape=1)+
   scale_color_manual(values=c('Black','Red'))+
   labs(title="Cornus kousa Triad Analysis Plot",
@@ -386,8 +293,8 @@ CkTriadPlot <- ggplot(CkapparentOUT0.05$SortGDCk, aes(x=Order, y=GD, color=Colou
   theme(panel.border = element_blank(), legend.position="none", panel.grid.major = element_blank(),
         panel.grid.minor = element_blank(), axis.line = element_line(colour = "black"), plot.title = element_text(hjust = 0.5))+
   scale_y_continuous(breaks=seq(0,0.60,0.05))+
-  scale_x_continuous(breaks=c(1, nrow(CkapparentOUT0.05$SortGDCk)))+
-  geom_hline(yintercept=CkapparentOUT0.05$ThresholdTCk, linetype="dashed", color = "red")
+  scale_x_continuous(breaks=c(1, nrow(CkapparentOUT$SortGD)))+
+  geom_hline(yintercept=CkapparentOUT$ThresholdT, linetype="dashed", color = "red")
 
 #put the triad and the dyad plots together
 library(ggpubr)
@@ -423,10 +330,12 @@ Tdiff
 sort(Tdiff, decreasing=TRUE)
 length(Tdiff)
 which.max(Tdiff)
+TMax <-max(Tdiff)
+
 
 #set TIndex to the number of the largest gap in Tdiff (on the low end if there are larger gaps at the high end)
-TIndex <- 71
-Tvect1 <- c(sample(na.omit(Tdiff[-TIndex]),29,replace=T),0.001616810)
+TIndex <- which.max(Tdiff)
+Tvect1 <- c(sample(na.omit(Tdiff[-TIndex]),29,replace=T),TMax)
 Tvect1
 TDtGap <- dixon.test(Tvect1)
 TDtGap
