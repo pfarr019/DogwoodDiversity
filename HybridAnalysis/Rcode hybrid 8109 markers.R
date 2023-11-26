@@ -1,4 +1,6 @@
-setwd("C:/Users/pfarr/Documents/Dogwood research/Full Diversity study/Species evaluation 12-15-21/R")
+# setwd("C:/Users/pfarr/Documents/Dogwood research/Full Diversity study/Species evaluation 12-15-21/R")
+
+setwd("C:/Users/ERIN.MOREAU/Documents/Dogwood/DogwoodDiversity/HybridAnalysis")
 
 
 # PCO analysis ------------------------------------------------------------
@@ -44,9 +46,6 @@ ggplot(chybrid.pco8109dataframe, aes(x=chybrid.pco8109ape$vectors[,1], y=chybrid
 ggsave("PCO Cornus hybrid.tiff", scale=1, width=7, units="in", dpi=600)
 
 #larger plot for powerpoint
-chybrid.pcogroups=scan("hybridgroupsPCO.txt")
-chybrid.pcogroups2 <- as.factor(chybrid.pcogroups) #convert groups of bract color into factors so can be read by ggplot
-chybrid.pco8109dataframe <- data.frame(chybrid.pco8109ape$vectors[,1], chybrid.pco8109ape$vectors[,2], chybrid.pcogroups) #make the eigenvectors and PCO groupsinto a data frame
 ggplot(chybrid.pco8109dataframe, aes(x=chybrid.pco8109ape$vectors[,1], y=chybrid.pco8109ape$vectors[,2], color=chybrid.pcogroups2, fill=chybrid.pcogroups2)) +
   geom_point(size=5, shape=21) + #makes dots larger and gives them shape with outline (outline looks good when you print it out)
   scale_fill_manual(values=c(rgb(0, 0, 1, .1), rgb(0.4, 0, 0.6, .3),rgb(0.7, 0, 0.3, .2),rgb(1, 0, 0, 0.1),rgb(1, 0.6, 0, 0.4),  rgb(1, 1, 0, 0.3), rgb(0, 0.6, 0, .3)),
@@ -70,13 +69,8 @@ ggsave("PCO Cornus hybrid larger.tiff", scale=1, width=12, units="in", dpi=600)
 library("pophelper")
 library(gridExtra)
 
-setwd("C:/Users/Pfarr/Documents/Dogwood research/Full Diversity study/Species evaluation 12-15-21/Structure")
-
 sfiles <- list.files(path="./pophelper", full.names=TRUE) #read all of the files in a folder
 sfiles
-
-sfiles1 <- list.files(path="./pophelper3-24-22", full.names=TRUE) #read all of the files in a folder
-sfiles1
 
 # basic usage
 slist <- readQ(files=sfiles)
@@ -96,15 +90,13 @@ grid.arrange(p1$plot[[1]])
 #import names of individuals
 nam=read.csv("species names for pophelper.csv",header=FALSE,sep=",")
 nam
-if(length(unique(sapply(slist1,nrow)))==1) slist1 <- lapply(slist1,"row.names<-",nam[,1])
-
 
 inds <- read.delim("species names for pophelper.txt",header=FALSE,stringsAsFactors=F)
-rownames(slist1[[2]]) <- inds$V1
+rownames(slist[[12]]) <- inds$V1
 
 rownames(slist[[15]]) <- inds$V1
 #careful because the lab legend isn't necessarily in order
-plotQ(slist1[2],returnplot=TRUE,#exportplot=FALSE,
+plotQ(slist[12],returnplot=TRUE,#exportplot=FALSE,
       showtitle=T, titlelab="Species Analysis of Rutgers Dogwood Breeding Material", titlesize=5,
       #sortind="all",
       clustercol=c("blue", "red","yellow"), height=5, width=10, barsize=1, barbordersize = 0, barbordercolour = "black",
@@ -117,7 +109,6 @@ plotQ(slist1[2],returnplot=TRUE,#exportplot=FALSE,
 
 #######final data, in the right order
 #using the calculated species composition instead of the structure results because the structure results miss small, common introgressions
-setwd("C:/Users/pfarr/Documents/Dogwood research/Full Diversity study/Species evaluation 12-15-21/Structure/Final Final data for paper graphic")
 sfiles <- "calculated results.txt"
 sfiles
 
@@ -209,14 +200,7 @@ alldata$individual<-gsub("\"","",alldata$individual)
 
 ###for some reason, there are extra empty lines after the data if the csv file is resaved, must be deleted before plotting
 
-###try the same plot, but with layers in order to get the different points to not overlap
-specified_order2 <-c("KN144-12", "KF83-1")
-level_order <- factor(dataforgraphing2$individual, level = c("KN144-19", "KF83-1"))
-level_order
-
 library(magrittr)
-subsetd <- alldata[alldata$individual %in% c("KN144-19", "D-038","KF83-1"), ] #create a subset with only these three individual's data
-
 dataforgraphing1 <- alldata[alldata$order_in_graph<=21,] #data for first graph
 dataforgraphing1$new_name = with(dataforgraphing1, reorder(new_name, order_in_graph)) #reorder based on the number in order_in_graph. Need to remember that 
 #the lower number is at the bottom of the graph
@@ -230,6 +214,10 @@ dataforgraphing3 <- alldata[alldata$order_in_graph>42,] #data for third graph
 dataforgraphing3$new_name = with(dataforgraphing3, reorder(new_name, order_in_graph)) #reorder based on the number in order_in_graph. Need to remember that
 #the lower number is at the bottom of the graph
 
+###try the same plot, but with layers in order to get the different points to not overlap
+level_order <- factor(dataforgraphing2$individual, level = c("KN144-19", "KF83-1"))
+level_order
+
 #plotting the data in three separate plots so can see all individuals' data clearly
 ggplot()+
   geom_point(data=subset(dataforgraphing3,distinguishing_locus %in% "K"), 
@@ -238,7 +226,6 @@ ggplot()+
   scale_x_continuous(breaks=c(0,129942925,252856830,359034702,479829781,607726880,730331874,829888132,935043946,1040321751,1165293952,1318504356), 
                      labels=c("Contig 1", "Contig 2", "Contig 3", "Contig 4", "Contig 5", "Contig 6", "Contig 7","Contig 8",
                               "Contig 9", "Contig 10", "Contig 0 (11)", ""))+
-  #scale_y_discrete(limits=specified_order2)+
   theme(panel.grid.minor.x = element_blank(), #axis.text.x=element_blank(), #gets rid of the minor grid lines
         panel.grid.major.x=element_line(color=rgb(0,0,0,0.4)), #turns the x axis gridlines gray
         axis.text.x= element_text(hjust=0, size=8),
@@ -262,7 +249,6 @@ ggplot()+
                        name= "Species Specific Loci",
                        labels=c("C. nuttallii   ", "C. kousa   ", "C. florida")) 
 ggsave("Species specific loci1.tiff", width=22.23, height=19.05, units="cm", dpi=300)
-ggsave("Fig14.tiff", width=22.23, height=19.05, units="cm", dpi=300)
 
 ggplot()+
   geom_point(data=subset(dataforgraphing2,distinguishing_locus %in% "K"), 
@@ -271,7 +257,6 @@ ggplot()+
   scale_x_continuous(breaks=c(0,129942925,252856830,359034702,479829781,607726880,730331874,829888132,935043946,1040321751,1165293952,1318504356), 
                      labels=c("Contig 1", "Contig 2", "Contig 3", "Contig 4", "Contig 5", "Contig 6", "Contig 7","Contig 8",
                               "Contig 9", "Contig 10", "Contig 0 (11)", ""))+
-  #scale_y_discrete(limits=specified_order2)+
   theme(panel.grid.minor.x = element_blank(), #axis.text.x=element_blank(), #gets rid of the minor grid lines
         panel.grid.major.x=element_line(color=rgb(0,0,0,0.4)), #turns the x axis gridlines gray
         axis.text.x= element_text(hjust=0, size=8),
@@ -295,7 +280,6 @@ ggplot()+
                        name= "Species Specific Loci",
                        labels=c("C. nuttallii   ", "C. kousa   ", "C. florida")) 
 ggsave("Species specific loci2.tiff", width=22.23, height=19.05, units="cm", dpi=300)
-ggsave("Fig15.tiff", width=22.23, height=19.05, units="cm", dpi=300)
 
 
 ggplot()+
@@ -305,7 +289,6 @@ ggplot()+
   scale_x_continuous(breaks=c(0,129942925,252856830,359034702,479829781,607726880,730331874,829888132,935043946,1040321751,1165293952,1318504356), 
                      labels=c("Contig 1", "Contig 2", "Contig 3", "Contig 4", "Contig 5", "Contig 6", "Contig 7","Contig 8",
                               "Contig 9", "Contig 10", "Contig 0 (11)", ""))+
-  #scale_y_discrete(limits=specified_order2)+
   theme(panel.grid.minor.x = element_blank(), #axis.text.x=element_blank(), #gets rid of the minor grid lines
         panel.grid.major.x=element_line(color=rgb(0,0,0,0.4)), #turns the x axis gridlines gray
         axis.text.x= element_text(hjust=0, size=8),
@@ -329,9 +312,8 @@ ggplot()+
                        name= "Species Specific Loci",
                        labels=c("C. nuttallii   ", "C. kousa   ", "C. florida")) 
 ggsave("Species specific loci3.tiff", width=22.23, height=19.05, units="cm", dpi=300)
-ggsave("Fig16.tiff", width=22.23, height=19.05, units="cm", dpi=300)
 
-#making dots smaller so that gaps are easier to see
+#making dots smaller so that gaps are easier to see (for manual inspection)
 ggplot()+
   geom_point(data=subset(dataforgraphing3,distinguishing_locus %in% "K"), 
              aes(x=overall_bp, y=new_name, color="red"),
@@ -339,7 +321,6 @@ ggplot()+
   scale_x_continuous(breaks=c(0,129942925,252856830,359034702,479829781,607726880,730331874,829888132,935043946,1040321751,1165293952,1318504356), 
                      labels=c("Contig 1", "Contig 2", "Contig 3", "Contig 4", "Contig 5", "Contig 6", "Contig 7","Contig 8",
                               "Contig 9", "Contig 10", "Contig 0 (11)", ""))+
-  #scale_y_discrete(limits=specified_order2)+
   theme(panel.grid.minor.x = element_blank(), #axis.text.x=element_blank(), #gets rid of the minor grid lines
         panel.grid.major.x=element_line(color=rgb(0,0,0,0.4)), #turns the x axis gridlines gray
         axis.text.x= element_text(hjust=0),
