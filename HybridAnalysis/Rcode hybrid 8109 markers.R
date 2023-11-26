@@ -1,6 +1,4 @@
-# setwd("C:/Users/pfarr/Documents/Dogwood research/Full Diversity study/Species evaluation 12-15-21/R")
-
-setwd("C:/Users/ERIN.MOREAU/Documents/Dogwood/DogwoodDiversity/HybridAnalysis")
+setwd("")
 
 
 # PCO analysis ------------------------------------------------------------

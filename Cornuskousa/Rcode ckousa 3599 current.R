@@ -1,6 +1,4 @@
-setwd("C:/Users/pfarr/Documents")
-setwd("C:/Users/pfarr/Documents/Dogwood research/Full Diversity study/Kousas only 4-1-22/R")
-setwd("C:/Users/ERIN.MOREAU/Documents/Dogwood/DogwoodDiversity/Cornuskousa")
+setwd("")
 ckousa.raw3599=read.table("3599markerskousawoutdoublesforNJ.txt", row = 1, skipNul = TRUE)
 
 library(ape)
@@ -191,8 +189,7 @@ ckousa.3599amovasignif
 ##################next analysis, parentage
 #using the apparent package from Iago and Hale to see if it can successfully identify parents of individuals, with confidence assignments.
 
-setwd("C:/Users/pfarr/Documents/Dogwood research/Full Diversity study/Kousas only 4-1-22/apparent")
-setwd("C:/Users/ERIN.MOREAU/Documents/Dogwood/DogwoodDiversity/Cornuskousa/apparent")
+setwd("./apparent")
 
 library(outliers)
 # Load the input file

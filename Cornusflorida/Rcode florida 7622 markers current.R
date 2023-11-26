@@ -1,6 +1,4 @@
-# setwd("C:/Users/pfarr/Documents")
-setwd("C:/Users/ERIN.MOREAU/Documents/Dogwood/DogwoodDiversity/Cornusflorida")
-# setwd("C:/Users/pfarr/Documents/Dogwood research/Full Diversity study/Floridas only 2-9-22/R")
+setwd("")
 cflorida.raw7622=read.table("7622markersFloridaWOduplicates.txt", row = 1, skipNul = TRUE)
 
 library(ape)
@@ -117,8 +115,6 @@ write(cflorida.nj7622outgroup.ladder$tip.label[ordered_tips], "CfloridaNamesLadd
 
 ##################next analysis, parentage
 #using the apparent package from Iago and Hale to see if it can successfully identify parents of individuals, with confidence assignments.
-
-# setwd("C:/Users/pfarr/Documents/Dogwood research/Full Diversity study/Floridas only 2-9-22")
 
 library(outliers)
 # Load the input file
