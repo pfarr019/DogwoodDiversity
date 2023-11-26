@@ -1,6 +1,4 @@
-setwd("C:/Users/pfarr/Documents")
-setwd("C:/Users/pfarr/Documents/Dogwood research/Full Diversity study/All samples 11-19-21/R")
-setwd("C:/Users/ERIN.MOREAU/Documents/Dogwood/DogwoodDiversity/AllSamples")
+setwd("")
 
 cornus.raw3009=read.table("3009SNPsR.txt", row = 1, skipNul = TRUE)
 library(vegan)

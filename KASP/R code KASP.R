@@ -1,6 +1,5 @@
 # R script for producing KASP result graphic
-# setwd("C:/Users/pfarr/Documents/Dogwood research/KASP/R")
-setwd("C:/Users/ERIN.MOREAU/Documents/Dogwood/DogwoodDiversity/KASP")
+setwd("")
 
 library(RColorBrewer)
 library(ggplot2)
