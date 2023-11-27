@@ -7,8 +7,6 @@ ckousa.dist3599 <- vegdist(ckousa.raw3599, method = "gower", na.rm = TRUE)
 ckousa.nj3599 <-nj(ckousa.dist3599)
 plot(ckousa.nj3599, cex = 0.7, label.offset = 0.001)
 
-
-
 #note, in order to present a rooted tree with bootstrap values, one needs to reroot it before doing bootstrapping, 
 # That way the bootstraps are associated with the right node
 #in this case I did not designate an outgroup
@@ -38,20 +36,25 @@ rownames(ckousa.kmeans2) <- rownames(ckousa.kmeans) #re-assigning row names, nee
 ckousa.kmeans2
 ckousa.nj3599outgroup.ladder
 
+#changing the name of one of the accessions for clarity
+ckousa.nj3599outgroup.ladder <-ckousa.nj3599outgroup.ladder
+ckousa.nj3599outgroup.ladder$tip.label[ckousa.nj3599outgroup.ladder$tip.label=="unlabeled_between_F70R06P26_and_KN161-119"] <- "Rutgers_Unlabeled_2"
+row.names(StructureResults2)[128] <- "Rutgers_Unlabeled_2"
+row.names(ckousa.kmeans2)[128] <- "Rutgers_Unlabeled_2"
+
 #this will print directly to a tiff file and not show in the plots window
-#may have to tweak sizes on final graph in order to make everything legible
 tiff("Phyloplot+structure+Kmeans.tif", width = 3600, height = 6000, units = "px", res = 300)
 plot(ckousa.nj3599outgroup.ladder, "ph", cex = .7, label.offset = .013, x.lim = 1)
 phydataplot(StructureResults2, ckousa.nj3599outgroup.ladder, offset=0.173, scaling=0.2, col=c("#33a02c", "#6a3d9a", rgb(0,0,0,0)), border=NA, main="Structure Results")
 f <- function(n) c("#6a3d9a", "#1f78b4", "#33a02c", "#fb9a99", "#e31a1c", "#b2df8a")
 #c("#33a02c", "#1f78b4", "#6a3d9a")
 phydataplot(ckousa.kmeans2, ckousa.nj3599outgroup.ladder, "mosaic", offset=0.4, width=0.05, funcol=f, border="white", legend="none")
-title(main = "NJ Tree + Structure + K means clustering", line= -.1) #play around with this more to put the titles in the right place, or maybe add later with a different program.
+title(main = "A.                               NJ Tree                                          B.   Structure           C. K means                                      \n clustering                                       ", line= -1.7, adj=1) #play around with this more to put the titles in the right place, or maybe add later with a different program.
 nodelabels(bpckousa3599.1, adj = c(1.1, -0.2), frame = "none", cex = .7, col = "green4")
 tiplabels(type = "p", pch = c(21,24,22)[ckousa.pcogroupswild],
           bg = c(rgb(0,0,0,0.3), "#fb9a99")[ckousa.pcogroups], 
           col = c(rgb(0,0,0,1), "#e31a1c")[ckousa.pcogroups], offset= 0.007, cex = 1)
-legend("bottomleft", legend = c("White-bracted", "Pink-bracted", "", "Cultivars", "Rutgers Material", "Wild-collected"), 
+legend(0.05, 15, legend = c("White-bracted", "Pink-bracted", "", "Cultivars", "Rutgers Material", "Wild-collected"), 
        bty='n', cex = 1, pch = c(21,21,21,21,24,22), 
        pt.bg = c(rgb(0,0,0,0.3), "#fb9a99", rgb(0, 0, 0, 0), rgb(0, 0, 0, 1), rgb(0, 0, 0, 1), rgb(0, 0, 0, 1)), 
        col = c(rgb(0,0,0,1), "#e31a1c", rgb(0, 0, 0, 0), rgb(0, 0, 0, 1), rgb(0, 0, 0, 0), rgb(0, 0, 0, 1)), pt.cex = 2, y.intersp = 1)
