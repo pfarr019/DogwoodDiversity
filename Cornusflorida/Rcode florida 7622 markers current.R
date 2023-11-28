@@ -100,7 +100,7 @@ ggplot(cflorida.pco7622dataframe, aes(x=cflorida.pco7622ape.vectors...1., y=cflo
   ggtitle("PCO Cornus florida") +
   xlab("PCO1 11.9%") +
   ylab("PCO2 4.3%")
-ggsave("PCO Cornus florida2.tiff", height=3.5, width=5.2, units="in", dpi=600) #setting as the column width for publication
+ggsave("PCO Cornus florida2.tiff", height=3, width=5.2, units="in", dpi=600) #setting as the column width for publication
 
 
 #how to extract the names of a ladderized tree, in order
