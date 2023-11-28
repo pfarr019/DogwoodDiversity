@@ -89,17 +89,17 @@ plotQ(inorder,returnplot=TRUE,exportplot=TRUE,
 #########################Combine the two plots into one graphic for printing#####################################
 
 Structureall <-plotQ(inorder,returnplot=TRUE,exportplot=FALSE,
-      showtitle=T, titlelab="Structure All Accessions", titlesize=16, titlecol= "black",
+      showtitle=T, titlelab="Structure All Accessions", titlesize=12, titlecol= "black",
       clustercol=c("yellow","red"), height=4, width=10, barsize=1, barbordersize = 0,
-      showlegend=T, legendlab=c("C. florida   ","C. kousa"), legendkeysize=13, legendtextsize=13, 
-      showsp=TRUE, splab="K=2", splabsize=14, titlehjust=0.45, splabcol="black",
-      showindlab=FALSE, useindlab=TRUE, indlabsize=11, indlabcol="black",
+      showlegend=T, legendlab=c("C. florida   ","C. kousa"), legendkeysize=9, legendtextsize=9, 
+      showsp=TRUE, splab="K=2", splabsize=11, titlehjust=0.45, splabcol="black",
+      showindlab=FALSE, useindlab=TRUE, indlabsize=9, indlabcol="black",
       showyaxis=TRUE
 )
 Structureall
 
 PCOall <-ggplot(cAll.pco3009dataframe, aes(x=cAll.pco3009ape$vectors[,1], y=cAll.pco3009ape$vectors[,2], color=cAll.pcogroups2, fill=cAll.pcogroups2)) +
-  geom_point(size=4, shape=21)+
+  geom_point(size=2.5, shape=21)+
   scale_fill_manual(values=c(rgb(1, 1, 0, 0.8), rgb(1, 0, 0, 0.3), rgb(0, 0, 1, 0.1), rgb(0, 0, 0, 0.3), rgb(0.4, 0, 0.6, .3)),
                     labels=c("C. florida", "C. kousa", "C. nuttallii", "other outgroups", "hybrids")) + #color scale for fill
   scale_color_manual(values=c(rgb(0, 0, 0, 0.3), rgb(1, 0, 0, 1), rgb(0, 0, 1, 1), rgb(0, 0, 0, 1), rgb(0.4, 0, 0.6, 1)),
@@ -108,10 +108,10 @@ PCOall <-ggplot(cAll.pco3009dataframe, aes(x=cAll.pco3009ape$vectors[,1], y=cAll
   theme(panel.grid.minor.x = element_blank(), panel.grid.minor.y = element_blank(), #gets rid of the minor grid lines
         panel.grid.major.x = element_blank(), panel.grid.major.y = element_blank(), #gets rid of the major grid lines
         legend.title=element_blank(),
-        legend.text = element_text(size=12),
-        axis.title = element_text(size=13),
-        plot.title = element_text(hjust = 0.5, size=16)) + #centers title
-  guides(fill = guide_legend(override.aes = list(size = 4))) + #changes the legend to make the dots larger
+        legend.text = element_text(size=8),
+        axis.title = element_text(size=10),
+        plot.title = element_text(hjust = 0.5, size=12)) + #centers title
+  guides(fill = guide_legend(override.aes = list(size = 3))) + #changes the legend to make the dots larger
   coord_fixed(ratio=1)+ #makes sure the axes have the same scale
   ggtitle("PCO All Accessions") +
   xlab("PCO1 95.1%") +
@@ -121,8 +121,7 @@ PCOall
 library(ggpubr)
 library(gridExtra)
 arrangedplotsall <-ggarrange(PCOall, NULL, Structureall$plot[[1]],
-                          labels = c("a","","b"), heights = c(1, 0.05, 1), #created an extra row in order to add space between the graphs
+                          labels = c("a","","b"), heights = c(1, 0.05, .8), #created an extra row in order to add space between the graphs
                           nrow=3)
 arrangedplotsall
-ggexport(arrangedplotsall, filename="PCO+structure all samplesdarkenedyellow.tiff", width=6800, height=6000, res=600)
-ggexport(arrangedplotsall, filename="PCO+structure all samples res300.tiff", width=3400, height=3000, res=300)
+ggexport(arrangedplotsall, filename="Fig2.tiff", width=4250, height=3000, res=600) #making it slightly smaller than the full page width (4500) in order to give extra space around the edges of structure when published, which can't be easily done manually in the plot  
