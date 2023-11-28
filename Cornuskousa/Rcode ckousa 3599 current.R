@@ -43,7 +43,7 @@ row.names(StructureResults2)[128] <- "Rutgers_Unlabeled_2"
 row.names(ckousa.kmeans2)[128] <- "Rutgers_Unlabeled_2"
 
 #this will print directly to a tiff file and not show in the plots window
-tiff("Phyloplot+structure+Kmeans.tif", width = 3600, height = 6000, units = "px", res = 300)
+tiff("Phyloplot+structure+Kmeans.tif", width = 7200, height = 12000, units = "px", res = 600)
 plot(ckousa.nj3599outgroup.ladder, "ph", cex = .7, label.offset = .013, x.lim = 1)
 phydataplot(StructureResults2, ckousa.nj3599outgroup.ladder, offset=0.173, scaling=0.2, col=c("#33a02c", "#6a3d9a", rgb(0,0,0,0)), border=NA, main="Structure Results")
 f <- function(n) c("#6a3d9a", "#1f78b4", "#33a02c", "#fb9a99", "#e31a1c", "#b2df8a")
