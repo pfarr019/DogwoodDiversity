@@ -35,7 +35,7 @@ cflorida.kmeans2 <- matrix(unlist(cflorida.kmeans), ncol=1, nrow=94)
 rownames(cflorida.kmeans2) <- rownames(cflorida.kmeans) #re-assigning row names, need to make sure the number of accessions exactly matches
 
 #this will print directly to a tiff file and not show in the plots window
-#may have to tweek sizes on final graph in order to make everything legible
+# For publication
 tiff("Phyloplot+structure+Kmeans.tif", width = 3600, height = 6000, units = "px", res = 300)
 plot(cflorida.nj7622outgroup.ladder, "ph", cex = 1.05, label.offset = .013, x.lim = 1)
 phydataplot(StructureResults2, cflorida.nj7622outgroup.ladder, offset=0.225, scaling=0.2, col=c(rgb(0, 1, 0, 1), rgb(1, 0, 0, 1), rgb(0, 0, 1, 1), rgb(0, 0, 0, 0)), border=NA, main="Structure Results")
@@ -47,7 +47,7 @@ nodelabels(bpcflorida7622.1, adj = c(1.1, -0.2), frame = "none", cex = .9, col =
 tiplabels(type = "p", pch = c(21, 22)[cflorida.pcogroupswild],
           bg = c(rgb(0, 0, 1, 0.3), rgb(1, 0, 0, 0.5), rgb(1, 0, 0, 0.05), rgb(0, 1, 0, 0.1), rgb(0, 0, 0, .3))[cflorida.pcogroups], 
           col = c(rgb(0, 0, 1, 1), rgb(1, 0, 0, 1), rgb(1, 0, 0, 1), rgb(0, 1, 0, 1), rgb(0, 0, 0, 1))[cflorida.pcogroups], offset= 0.007, cex = 1.5)
-legend("bottomleft", legend = c("White-bracted", "Pink-bracted", "Blush pink-bracted", "ssp. urbiniana", "Unknown bract color", "", "Garden origin", "Wild-collected"), 
+legend(0.01, 10, legend = c("White-bracted", "Pink-bracted", "Blush pink-bracted", "ssp. urbiniana", "Unknown bract color", "", "Garden origin", "Wild-collected"), 
        bty='n', cex = 1, pch = c(21, 21, 21, 21, 21, 21, 21, 22), 
        pt.bg = c(rgb(0, 0, 1, 0.3), rgb(1, 0, 0, 0.5), rgb(1, 0, 0, 0.05), rgb(0, 1, 0, 0.1), rgb(0, 0, 0, .3), rgb(0,0,0,0), rgb(0, 0, 0, 1), rgb(0, 0, 0, 1)), 
        col = c(rgb(0, 0, 1, 1), rgb(1, 0, 0, 1), rgb(1, 0, 0, 1), rgb(0, 1, 0, 1), rgb(0, 0, 0, 1), rgb(0, 0, 0, 0), rgb(0, 0, 0, 1), rgb(0, 0, 0, 1)), pt.cex = 2, y.intersp = 1)
@@ -84,7 +84,7 @@ cflorida.pcogroups3 <- as.factor(cflorida.pcogroups2) #convert groups of bract c
 cflorida.pcogroups4 <- as.factor(cflorida.pcogroupswild2)
 
 ggplot(cflorida.pco7622dataframe, aes(x=cflorida.pco7622ape.vectors...1., y=cflorida.pco7622ape.vectors...2., color=cflorida.pcogroups3, fill=cflorida.pcogroups3)) +
-  geom_point(size=4, shape=21)+
+  geom_point(size=2.5, shape=21)+
   scale_fill_manual(values=c(rgb(0, 0, 1, 0.3), rgb(1, 0, 0, 0.5), rgb(1, 0, 0, 0.05), rgb(0, 1, 0, 0.1), rgb(0, 0, 0, .3)),
                     labels=c("White-bracted", "Pink-bracted", "Blush pink-bracted", "ssp. urbiniana", "Unknown bract color")) + #color scale for fill
   scale_color_manual(values=c(rgb(0, 0, 1, 1), rgb(1, 0, 0, 1), rgb(1, 0, 0, 1), rgb(0, 1, 0, 1), rgb(0, 0, 0, 1)),
@@ -94,13 +94,13 @@ ggplot(cflorida.pco7622dataframe, aes(x=cflorida.pco7622ape.vectors...1., y=cflo
         panel.grid.major.x = element_blank(), panel.grid.major.y = element_blank(), #gets rid of the major grid lines
         legend.title=element_blank(),
         plot.title = element_text(hjust = 0.5)) + #centers title
-  guides(fill = guide_legend(override.aes = list(size = 4))) + #changes the legend to make the dots larger
+  guides(fill = guide_legend(override.aes = list(size = 2.5))) + #changes the legend to make the dots larger
   coord_fixed(ratio=1)+ #makes sure the axes have the same scale
   scale_y_continuous(breaks=c(-0.1, 0.0, 0.1))+
   ggtitle("PCO Cornus florida") +
   xlab("PCO1 11.9%") +
   ylab("PCO2 4.3%")
-ggsave("PCO Cornus florida2.tiff", scale=1, width=9, units="in", dpi=600)
+ggsave("PCO Cornus florida2.tiff", height=3.5, width=5.2, units="in", dpi=600) #setting as the column width for publication
 
 
 #how to extract the names of a ladderized tree, in order
