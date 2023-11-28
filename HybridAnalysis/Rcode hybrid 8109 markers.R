@@ -26,7 +26,7 @@ chybrid.pcogroups=scan("hybridgroupsPCO.txt")
 chybrid.pcogroups2 <- as.factor(chybrid.pcogroups) #convert groups of bract color into factors so can be read by ggplot
 chybrid.pco8109dataframe <- data.frame(chybrid.pco8109ape$vectors[,1], chybrid.pco8109ape$vectors[,2], chybrid.pcogroups) #make the eigenvectors and PCO groupsinto a data frame
 ggplot(chybrid.pco8109dataframe, aes(x=chybrid.pco8109ape$vectors[,1], y=chybrid.pco8109ape$vectors[,2], color=chybrid.pcogroups2, fill=chybrid.pcogroups2)) +
-  geom_point(size=3, shape=21) + #makes dots larger and gives them shape with outline (outline looks good when you print it out)
+  geom_point(size=2.5, shape=21) + #makes dots larger and gives them shape with outline (outline looks good when you print it out)
   scale_fill_manual(values=c(rgb(0, 0, 1, .1), rgb(0.4, 0, 0.6, .3),rgb(0.7, 0, 0.3, .2),rgb(1, 0, 0, 0.1),rgb(1, 0.6, 0, 0.4),  rgb(1, 1, 0, 0.3), rgb(0, 0.6, 0, .3)),
                     labels=c("C. nuttallii","C. x elwinortonii","C. x elwinortonii \nbackcrossed\nto C. kousa","C. kousa","C. x rutgersensis", "C. florida", "C. nuttallii x C. florida")) + #color scale for fill
   scale_color_manual(values=c(rgb(0, 0, 1, 1), rgb(0.4, 0, 0.6, 1),rgb(0.7, 0, 0.3, 1),rgb(1, 0, 0, 0.8),rgb(1, 0.6, 0, 1),   rgb(0, 0, 0, 0.5),  rgb(0, 0.6, 0, 1)),
@@ -35,13 +35,14 @@ ggplot(chybrid.pco8109dataframe, aes(x=chybrid.pco8109ape$vectors[,1], y=chybrid
   theme(panel.grid.minor.x = element_blank(), panel.grid.minor.y = element_blank(), #gets rid of the minor grid lines
         panel.grid.major.x = element_blank(), panel.grid.major.y = element_blank(), #gets rid of the major grid lines
         legend.title=element_blank(),
+        axis.title=element_text(size=9),
         plot.title = element_text(hjust = 0.5)) + #centers title
-  guides(color = guide_legend(override.aes = list(size = 3))) + #changes the legend to make the dots larger
+  guides(color = guide_legend(override.aes = list(size = 2.5))) + #changes the legend to make the dots larger
   coord_fixed(ratio=1)+ #makes sure the axes have the same scale
   ggtitle("PCO Cornus hybrid analysis") +
-  xlab("PCO1 62.6%") +
-  ylab("PCO2 32.2%")
-ggsave("PCO Cornus hybrid.tiff", scale=1, width=7, units="in", dpi=600)
+  xlab("PCO1 61.2%") +
+  ylab("PCO2 33.5%")
+ggsave("PCO Cornus hybrid.tiff", scale=1, width=5.2, height=3.7, units="in", dpi=600)
 
 #larger plot for powerpoint
 ggplot(chybrid.pco8109dataframe, aes(x=chybrid.pco8109ape$vectors[,1], y=chybrid.pco8109ape$vectors[,2], color=chybrid.pcogroups2, fill=chybrid.pcogroups2)) +
