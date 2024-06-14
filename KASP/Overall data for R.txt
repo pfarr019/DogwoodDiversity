@@ -1,18 +1,18 @@
-	KASP	ddRadSeq	Structure_1250_markers
+	KASP	ddRadSeq	Structure_1000_markers
 "Ck Big Dipper"	0	0	0
 "Ck Spiritual"	0	0	0
-"Ck Ticknors Choice"	0	0	0
+"Ck Ticknors Choice"	0	0	0.001
 "Ck Emerald Star"	0	0	0
-"Ck Snowflake"	0	0	0
-"Ck Propzam Prophet"	0	0	0
-"Ck Bodnant Form"	0	0	0
-"Ck Melissa's Mountain Snowfall"	0	0	0
-"Ck 79163-L China"	0	0	0
-"Ck 79163-P China"	0	0	0.01
-"Ck Julian"	0.5	0.5	0.49
-"Ck Angela Palmer"	0.75	0.71	0.69
-"Ck Pollywood"	0.71	0.71	0.81
-"Ck Steeple (Polly Hill)"	1	0.93	0.81
+"Ck Snowflake"	0	0	0.001
+"Ck Propzam Prophet"	0	0	0.001
+"Ck Bodnant Form"	0	0	0.001
+"Ck Melissa's Mountain Snowfall"	0	0	0.0001
+"Ck 79163-L China"	0	0	0.002
+"Ck 79163-P China"	0	0	0.002
+"Ck Julian"	0.5	0.5	0.509
+"Ck Angela Palmer"	0.75	0.71	0.701
+"Ck Pollywood"	0.71	0.71	0.824
+"Ck Steeple (Polly Hill)"	1	0.93	0.886
 "Ck Norman Hadden"	0.8	0.75	0.86
-"Ck Bush's Pink"	1	1	0.94
-"Ck Waterfall"	1	1	1
+"Ck Bush's Pink"	1	1	0.98
+"Ck Waterfall"	1	1	0.999
