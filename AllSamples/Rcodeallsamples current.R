@@ -41,87 +41,60 @@ geom_point(size=4, shape=21)+
   ggtitle("PCO All Accessions") +
   xlab("PCO1 95.1%") +
   ylab("PCO2 1.8%")
-ggsave("PCO Cornus All.tiff", scale=1, width=10, units="in", dpi=600)
+ggsave("Fig2.tiff", scale=1, width=10, units="in", dpi=600)
+
+#####plotting a general tree with all accessions################
+library(ape)
+library(vegan)
+cAll.nj3009 <-nj(cAll.dist3009)
+plot(cAll.nj3009, cex = 0.7, label.offset = 0.001)
+ggsave("cAll NJ Tree.tiff", dpi=600)
+
+cAll.nj3009outgroup <- root(cAll.nj3009, "Cc_Mountain_Moon", edgelabel=TRUE) #set outgroup
+plot(cAll.nj3009outgroup, cex = 0.3, label.offset = 0.001) #plot the new diagram with the outgroup
+#note, in order to present a rooted tree with bootstrap values, one needs to reroot it before doing bootstrapping, That way the bootstraps are associated with the right node
+f <- function(x) nj(vegdist(x, method = "gower", na.rm = TRUE)) #first define the function used to make the distance matrix and phylogram
+bpcAll3009 <- boot.phylo(cAll.nj3009outgroup, cornus.raw3009, f, B=1000, rooted = is.rooted(cAll.nj3009outgroup))
+bpcAll3009
+
+bpcAll3009.1 <- replace(bpcAll3009, bpcAll3009<600, "") #gets rid of bp values that are less than 600
+
+cAll.nj3009outgroup.ladder <- ladderize(cAll.nj3009outgroup) #how to reorder the tree so it is a little easier to see
+#printing out ladderized figure
+tiff("NJall with bootstrapping.tiff", units="px", width=10000, height=10000, res=600)
+plot(cAll.nj3009outgroup.ladder, cex = 0.3)
+nodelabels(bpcAll3009.1, adj = c(1.1, -0.2), frame = "none", cex = 0.3, col = "green4")
+add.scale.bar(cex=.5) #add a scale bar
+dev.off()
+
+#Dendrogram- Add cirles of the same color as the PCO chart
+
+cAll.pcogroups=scan("GroupsforPCO.txt")
+cAll.pcogroups2 <- as.factor(cAll.pcogroups) #convert groups of bract color into factors so can be read by ggplot
 
 
-#####Now visualize the structure data here 
-remotes::install_github('royfrancis/pophelper') #pophelper install is slightly different because not in CRAN
-library("pophelper")
-library(gridExtra)
+cflorida.pcogroups=scan("PCOgroups.txt")
+cflorida.pcogroupswild=scan("PCOgroupswild.txt")
+cflorida.kmeans=read.table("kmeansclusters.txt", header=FALSE, row.names=1, stringsAsFactors = FALSE)
+StructureResults=read.table("StructureResultsforR.txt", header=FALSE, row.names=1, stringsAsFactors = FALSE)
+StructureResults2 <- matrix(unlist(StructureResults), ncol=4, nrow=94) #converting from a list to a matrix
+typeof(StructureResults2) #should return "double"
+StructureResults2
+rownames(StructureResults2) <- rownames(StructureResults) #re-assigning row names, need to make sure the number of accessions exactly matches
+cflorida.kmeans2 <- matrix(unlist(cflorida.kmeans), ncol=1, nrow=94)
+rownames(cflorida.kmeans2) <- rownames(cflorida.kmeans) #re-assigning row names, need to make sure the number of accessions exactly matches
 
-sfiles <- list.files(path="pophelper", full.names=TRUE) #read all of the files in a folder
-sfiles
-
-# basic usage
-slist <- readQ(files=sfiles,indlabfromfile =T) #the previous can be used if names are not cut off in the output file
-slist
-
-p1 <- plotQ(qlist=slist[c(3,4,10)],imgoutput="join",returnplot=TRUE,exportplot=FALSE,basesize=11,exportpath =getwd())
-grid.arrange(p1$plot[[1]])
-
-#careful because the lab legend isn't necessarily in order
-plotQ(slist[1],returnplot=TRUE,exportplot=TRUE,
-      showtitle=T, titlelab="Structure all accessions", titlesize=5,
-      sortind="all",
-      clustercol=c("yellow","red"), height=5, width=10, barsize=1, barbordersize = 0,
-      showlegend=T, legendlab=c("florida   ","kousa"), legendkeysize=3, legendtextsize=3, 
-      showsp=TRUE, splab="K=2", splabsize=3, 
-      showindlab=TRUE, useindlab=TRUE, indlabsize=2,
-      outputfilename="plotq",imgtype="png", dpi=600, exportpath=getwd()
-)
-
-#plot files with individuals in the same order as in the PCO (first coordinate)
-sfile <- "BASIC file for pophelper in PC1 order.txt"
-sfile
-
-inorder <- readQ(files=sfile)
-inorder
-
-plotQ(inorder,returnplot=TRUE,exportplot=TRUE,
-      showtitle=T, titlelab="Structure all accessions", titlesize=7,
-      clustercol=c("yellow","red"), height=4, width=10, barsize=1, barbordersize = 0,
-      showlegend=T, legendlab=c("C. florida   ","C. kousa"), legendkeysize=5, legendtextsize=5, 
-      showsp=TRUE, splab="K=2", splabsize=6,
-      showindlab=FALSE, useindlab=TRUE, indlabsize=2,
-      outputfilename="StructureplotinPCOorder",imgtype="tiff", dpi=600, exportpath=getwd()
-)
-
-#########################Combine the two plots into one graphic for printing#####################################
-
-Structureall <-plotQ(inorder,returnplot=TRUE,exportplot=FALSE,
-      showtitle=T, titlelab="Structure All Accessions", titlesize=12, titlecol= "black",
-      clustercol=c("yellow","red"), height=4, width=10, barsize=1, barbordersize = 0,
-      showlegend=T, legendlab=c("C. florida   ","C. kousa"), legendkeysize=9, legendtextsize=9, 
-      showsp=TRUE, splab="K=2", splabsize=11, titlehjust=0.45, splabcol="black",
-      showindlab=FALSE, useindlab=TRUE, indlabsize=9, indlabcol="black",
-      showyaxis=TRUE
-)
-Structureall
-
-PCOall <-ggplot(cAll.pco3009dataframe, aes(x=cAll.pco3009ape$vectors[,1], y=cAll.pco3009ape$vectors[,2], color=cAll.pcogroups2, fill=cAll.pcogroups2)) +
-  geom_point(size=2.5, shape=21)+
-  scale_fill_manual(values=c(rgb(1, 1, 0, 0.8), rgb(1, 0, 0, 0.3), rgb(0, 0, 1, 0.1), rgb(0, 0, 0, 0.3), rgb(0.4, 0, 0.6, .3)),
-                    labels=c("C. florida", "C. kousa", "C. nuttallii", "other outgroups", "hybrids")) + #color scale for fill
-  scale_color_manual(values=c(rgb(0, 0, 0, 0.3), rgb(1, 0, 0, 1), rgb(0, 0, 1, 1), rgb(0, 0, 0, 1), rgb(0.4, 0, 0.6, 1)),
-                     labels=c("C. florida", "C. kousa", "C. nuttallii", "other outgroups", "hybrids")) + #color scale for outline
-  theme_bw() + #removes gray background
-  theme(panel.grid.minor.x = element_blank(), panel.grid.minor.y = element_blank(), #gets rid of the minor grid lines
-        panel.grid.major.x = element_blank(), panel.grid.major.y = element_blank(), #gets rid of the major grid lines
-        legend.title=element_blank(),
-        legend.text = element_text(size=8),
-        axis.title = element_text(size=10),
-        plot.title = element_text(hjust = 0.5, size=12)) + #centers title
-  guides(fill = guide_legend(override.aes = list(size = 3))) + #changes the legend to make the dots larger
-  coord_fixed(ratio=1)+ #makes sure the axes have the same scale
-  ggtitle("PCO All Accessions") +
-  xlab("PCO1 95.1%") +
-  ylab("PCO2 1.8%")
-PCOall
-
-library(ggpubr)
-library(gridExtra)
-arrangedplotsall <-ggarrange(PCOall, NULL, Structureall$plot[[1]],
-                          labels = c("a","","b"), heights = c(1, 0.05, .8), #created an extra row in order to add space between the graphs
-                          nrow=3)
-arrangedplotsall
-ggexport(arrangedplotsall, filename="Fig2.tiff", width=4250, height=3000, res=600) #making it slightly smaller than the full page width (4500) in order to give extra space around the edges of structure when published, which can't be easily done manually in the plot  
+#this will print directly to a tiff file and not show in the plots window
+# For publication
+tiff("Phyloplot.tif", units="px", width=10000, height=10000, res=600)
+plot(cAll.nj3009outgroup.ladder, "ph", cex = 0.3, label.offset = .005, x.lim = 1)
+nodelabels(bpcAll3009.1, adj = c(1.1, -0.2), frame = "none", cex = 0.3, col = "green4")
+tiplabels(type = "p", pch=21,
+          bg = c(rgb(1, 1, 0, 0.7), rgb(1, 0, 0, 0.3), rgb(0, 0, 1, 0.1), rgb(0, 0, 0, 0.3), rgb(0.4, 0, 0.6, .3))[cAll.pcogroups2],
+          col = c(rgb(0, 0, 0, 0.03), rgb(1, 0, 0, 1), rgb(0, 0, 1, 1), rgb(0, 0, 0, 1), rgb(0.4, 0, 0.6, 1))[cAll.pcogroups2], offset= 0.003, cex = .65)
+legend(0.03, 25, legend = c("C. florida", "C. kousa", "C. nuttallii", "other outgroups", "hybrids"),
+       bty='n', cex = 1, pch = c(21, 21, 21, 21, 21), 
+       pt.bg = c(rgb(1, 1, 0, 0.7), rgb(1, 0, 0, 0.3), rgb(0, 0, 1, 0.1), rgb(0, 0, 0, 0.3), rgb(0.4, 0, 0.6, .3)), 
+       col = c(rgb(0, 0, 0, 0.2), rgb(1, 0, 0, 1), rgb(0, 0, 1, 1), rgb(0, 0, 0, 1), rgb(0.4, 0, 0.6, 1)), pt.cex = 2)
+add.scale.bar(x=0.17,y=1.1, cex=1.1)
+dev.off()
