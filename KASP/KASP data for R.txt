@@ -12,7 +12,7 @@
 "Ck Julian"	0.5	0.5	0.5	0.5	0.5	0.5	0.5
 "Ck Angela Palmer"	0	0.5	1	NA	1	1	1
 "Ck Pollywood"	0.5	1	0.5	1	0.5	1	0.5
-"Ck Steeple (Polly Hill)"	1	1	1	1	1	NA	1
 "Ck Norman Hadden"	0.5	1	NA	0.5	NA	1	1
+"Ck Steeple (Polly Hill)"	1	1	1	1	1	NA	1
 "Ck Bush's Pink"	1	1	1	1	1	1	1
 "Ck Waterfall"	1	1	1	1	1	1	1

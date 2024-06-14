@@ -12,7 +12,7 @@
 "Ck Julian"	0.5	0.5	0.509
 "Ck Angela Palmer"	0.75	0.71	0.701
 "Ck Pollywood"	0.71	0.71	0.824
-"Ck Steeple (Polly Hill)"	1	0.93	0.886
 "Ck Norman Hadden"	0.8	0.75	0.86
+"Ck Steeple (Polly Hill)"	1	0.93	0.886
 "Ck Bush's Pink"	1	1	0.98
 "Ck Waterfall"	1	1	0.999
